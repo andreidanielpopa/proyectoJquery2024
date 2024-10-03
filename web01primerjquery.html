@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Primer JQuery</title>
+    <style>
+        .azul {
+            color: blue
+        }
+    </style>
+</head>
+
+<body>
+    <!-- COMENTARIOS DENTRO DE ESTE ENTORNO -->
+
+    <h1>Selectores JQuery</h1>
+    <button id="boton1">Pulsar para algo...</button>
+    <h2 class="azul">Soy un título azul</h2>
+    <button class="azul">Botón azul</button>
+    <p>Aprendiendo jquery 1</p>
+    <p>Aprendiendo jquery 2</p>
+    <p>Aprendiendo jquery 3</p>
+
+    <script src="js/jquery-3.7.1.js"></script>
+    <script>
+        //La primera linea dentro de jquery sera la que realice las acciones al cargar la pagina
+        $(document).ready(function () {
+            // alert(' you, mi primera app!!!')
+            // $('h1').hide();
+            // $('#boton1').hide();
+
+            $('p').click(function () {
+                console.log('Mostrando mensajes en la consola Web');
+                $(this).hide();
+            })
+
+            $('#boton1').click(function () {
+                alert('Soy un botón');
+            })
+
+            //Hay una palabra clave 'this' que hace referencia al objeto que ha llamado al metodo
+            //y funciona como un selector
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <label>Número 1</label>
+    <input type="text" name="" id="cajanumero1"><br>
+    <label>Número 2</label>
+    <input type="text" name="" id="cajanumero2"><br>
+    <label>Número 3</label>
+    <input type="text" name="" id="cajanumero3"><br>
+    <button id="botoncomparar">Comparar números</button>
+    <p id="resultado"></p>
+    <script src="js/jquery-3.7.1.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#botoncomparar').click(function () {
+                var num1 = parseInt($('#cajanumero1').val());
+                var num2 = parseInt($('#cajanumero2').val());
+                var num3 = parseInt($('#cajanumero3').val());
+            var texto = '';
+                if (num1 >= num2 && num1 >= num3 && num2 >= num3) {
+                    texto = 'El número mayor es ' + num1 + ', el número intermedio es ' + num2 + ' y el número menor es ' + num3;
+                }if (num1 >= num2 && num1 >= num3 && num2 <= num3) {
+                    texto = 'El número mayor es ' + num1 + ', el número intermedio es ' + num3 + ' y el número menor es ' + num2;
+                }else if(num2 >= num1 && num2 >= num3 && num1 >= num3){
+                    texto = 'El número mayor es ' + num2 + ', el número intermedio es ' + num1 + ' y el número menor es ' + num3;
+                }else if(num2 >= num1 && num2 >= num3 && num1 <= num3){
+                    texto = 'El número mayor es ' + num2 + ', el número intermedio es ' + num3 + ' y el número menor es ' + num1;
+                }else if(num3 >= num1 && num3 >= num2 && num2 >= num1){
+                    texto = 'El número mayor es ' + num3 + ', el número intermedio es ' + num2 + ' y el número menor es ' + num1;
+                }else if(num3 >= num1 && num3 >= num2 && num2 <= num1){
+                    texto = 'El número mayor es ' + num3 + ', el número intermedio es ' + num1 + ' y el número menor es ' + num2;
+                };
+                
+                $('#resultado').text(texto);
+            })
+        })
+    </script>
+</body>
+
+</html>
