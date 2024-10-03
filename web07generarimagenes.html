@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <h1>Generar imagenes</h1>
+        <input type="range" id="rango" min="1" max="20" value="1" />
+        <span id="valorrango"></span>
+        <div id="contenedor"></div>
+        <script src="js/jquery-3.7.1.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('#rango').change(function () {
+                    var numimg = parseInt($(this).val());
+                    $('#valorrango').text(numimg);
+                    $('#contenedor').text('');
+                    for (var i = 1; i <= numimg; i++) {
+                        var imagen = $('<img>', { 'src': 'images/cruzzi2.jfif' });
+                        $('#contenedor').append(imagen);
+                        imagen.mouseover(function(){
+                            $(this).attr('src','images/cruzzi1.jfif')
+                        })
+
+                        imagen.mouseout(function(){
+                            $(this).attr('src','images/cruzzi2.jfif')
+                        })
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>
