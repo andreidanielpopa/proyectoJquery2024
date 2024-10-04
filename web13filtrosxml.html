@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <h1>Filtros XML</h1>
+        <label for="">Introduzca ID</label>
+        <input type="text" name="" id="cajaid" /><br />
+        <button id="botonbuscarid">Buscar departamento</button>
+        <hr />
+        <label for="">Introduzca localidad</label>
+        <input type="text" name="" id="cajalocalidad" /><br />
+        <button id="botonbuscarlocalidad">Buscar localidades</button>
+        <h1 style="color: blue" id="mensaje"></h1>
+        <ul id="listadepartamentos"></ul>
+        <script src="js/jquery-3.7.1.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('#botonbuscarid').click(function () {
+                    var id = $('#cajaid').val();
+                    $.get('documents/departamentos.xml', function (data) {
+                        console.log('leyendo...');
+                        var filtro = 'DEPT[DEPT_NO=' + id + ']';
+                        var nodedept = $(data).find(filtro).first();
+                        var nombre = $(nodedept).find('DNOMBRE').text();
+                        var localidad = $(nodedept).find('LOC').text();
+                        $('#mensaje').text(nombre + ', ' + localidad);
+                    });
+                });
+
+                $('#botonbuscarlocalidad').click(function () {
+                    var localidad = $('#cajalocalidad').val();
+                    $('#listadepartamentos').html('');
+                    $.get('documents/departamentos.xml', function (data) {
+                        console.log('leyendo...');
+                        var filtro = 'LOC:contains(' + localidad + ')';
+                        var html = '';
+                        if ($(data).find(filtro).length == 0) {
+                            $('#mensaje').text('No existen departamentos');
+                        } else {
+                            $('#mensaje').text('');
+                            $(data)
+                                .find(filtro)
+                                .each(function () {
+                                    var nodopadre = $(this).parent();
+                                    var id = $(nodopadre).attr('DEPT_NO');
+                                    var nombre = $(nodopadre).find('DNOMBRE').text();
+                                    html += '<li>ID: ' + id + ', ' + nombre + '</li>';
+                                });
+                            $('#listadepartamentos').html(html);
+                        }
+                    });
+                });
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <h1>Alumnos notas XML</h1>
+        <label for="">Introduzca Nota</label>
+        <input type="text" name="" id="nota" />
+        <button id="botonbuscarid">Buscar alumno</button>
+        <table id="tablalumnos"></table>
+        <script src="js/jquery-3.7.1.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('#botonbuscarid').click(function () {
+                    var nota = parseInt($('#nota').val());
+                    var html = '<tr><th>Nombre</th><th>Apellidos</th><th>Nota</th></tr>';
+                    $.get('documents/alumnos.xml', function (data) {
+                        console.log('leyendo...');
+                        $(data)
+                            .find('alumno')
+                            .each(function () {
+                                var notaalumno = parseInt($(this).find('nota').text());
+                                if (notaalumno >= nota) {
+                                    var nombre = $(this).find('nombre').text();
+                                    var apellidos = $(this).find('apellidos').text();
+                                    html += '<tr>';
+                                    html += '<td>' + nombre + '</td>';
+                                    html += '<td>' + apellidos + '</td>';
+                                    html += '<td>' + notaalumno + '</td>';
+                                    html += '</tr>';
+                                }
+                            });
+                        $('#tablalumnos').html(html);
+                    });
+                });
+            });
+        </script>
+    </body>
+</html>
