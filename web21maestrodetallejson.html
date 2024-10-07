@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <h1>Maestro detalle jugadores</h1>
+        <select name="" id="selectjugador"></select>
+        <div id="datosjugador"></div>
+        <script src="js/jquery-3.7.1.js"></script>
+        <script>
+            $(document).ready(function () {
+                $.getJSON('documents/jugadores.json', function (data) {
+                    $.each(data.jugadores, function (index, jugador) {
+                        var nombre = jugador.nombre;
+                        var option = $('<option>', { text: nombre , 'data-index': index});
+                        $('#selectjugador').append(option);
+                    });
+                });
+
+                $('#selectjugador').change(function () {
+                    var name = $(this).val();
+                    var indice = $(this).attr('data-index');
+                    $.ajax({
+                        url: 'documents/jugadores.json',
+                        type: 'GET',
+                        success: function (data) {
+                            var html = '';
+                            console.log(indice);
+                            var player = data.jugadores;
+                            var position = player.posicion;
+                            var edad = player.edad;
+                            var imagen = player.imagen;
+                            html += '<h1>' + name + '</h1><h3>' + edad + '</h3><h3>' + position + '</h3><img src="' + imagen + '"/>';
+
+                            $('#datosjugador').html(html);
+                        },
+                    });
+                });
+            });
+        </script>
+    </body>
+</html>
