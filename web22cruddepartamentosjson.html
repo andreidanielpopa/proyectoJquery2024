@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <h1>CRUD Departamentos</h1>
+        <label for="">Id Departamentos</label>
+        <input type="text" id="cajaid" /><br />
+        <label for="">Nombre Departamentos</label>
+        <input type="text" id="cajanombre" /><br />
+        <label for="">Localidad</label>
+        <input type="text" id="cajalocalidad" /><br />
+        <hr />
+        <button id="botoninsert">Insert</button>
+        <button id="botonupdate">Update</button>
+        <button id="botondelete">Delete</button>
+        <hr />
+        <table id="datos" border="1">
+            <thead>
+                <tr>
+                    <th>Id Departamentos</th>
+                    <th>Nombre</th>
+                    <th>Localidad</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <script src="js/jquery-3.7.1.js"></script>
+        <script>
+            var url = 'https://apicruddepartamentoscore.azurewebsites.net/';
+            $(document).ready(function () {
+                loadDepartamentos();
+
+                $('#botoninsert').click(function () {
+                    var numero = $('#cajaid').val();
+                    var nombre = $('#cajanombre').val();
+                    var localidad = $('#cajalocalidad').val();
+
+                    var departamento = new Object();
+                    departamento.numero = parseInt(numero);
+                    departamento.nombre = nombre;
+                    departamento.localidad = localidad;
+
+                    var dataJSON = JSON.stringify(departamento);
+
+                    var request = 'api/departamentos';
+                    $.ajax({
+                        url: url + request,
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: dataJSON,
+                        success: function () {
+                            console.log('Insertado');
+                            loadDepartamentos();
+                        },
+                    });
+                });
+
+                $('#botonupdate').click(function () {
+                    var numero = $('#cajaid').val();
+                    var nombre = $('#cajanombre').val();
+                    var localidad = $('#cajalocalidad').val();
+
+                    var departamento = new Object();
+                    departamento.numero = parseInt(numero);
+                    departamento.nombre = nombre;
+                    departamento.localidad = localidad;
+
+                    var dataJSON = JSON.stringify(departamento);
+
+                    var request = 'api/departamentos';
+                    $.ajax({
+                        url: url + request,
+                        type: 'PUT',
+                        contentType: 'application/json',
+                        data: dataJSON,
+                        success: function () {
+                            console.log('Modificado');
+                            loadDepartamentos();
+                        },
+                    });
+                });
+
+                $('#botondelete').click(function () {
+                    var id = $('#cajaid').val();
+                    var request = 'api/departamentos/' + id;
+                    $.ajax({
+                        url: url + request,
+                        type: 'DELETE',
+                        success: function () {
+                            console.log('Borrado');
+                            loadDepartamentos();
+                        },
+                    });
+                });
+            });
+
+            function loadDepartamentos() {
+                var request = 'api/departamentos';
+                $.getJSON(url + request, function (data) {
+                    var html = '';
+                    $.each(data, function (index, departamentos) {
+                        html += '<tr>';
+                        html += '<td>' + departamentos.numero + '</td>';
+                        html += '<td>' + departamentos.nombre + '</td>';
+                        html += '<td>' + departamentos.localidad + '</td>';
+                        html += '</tr>';
+                    });
+                    $('#datos tbody').html(html);
+                });
+            }
+        </script>
+    </body>
+</html>

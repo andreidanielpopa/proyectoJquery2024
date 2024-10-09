@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <h1>Maestro detalles departamentos</h1>
+        <ul id="listadepartamentos"></ul>
+        <table id="datos" border="1">
+            <thead>
+                <tr>
+                    <th>Apellido</th>
+                    <th>Oficio</th>
+                    <th>Salario</th>
+                    <th>Departamento</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <script src="js/jquery-3.7.1.js"></script>
+        <script>
+            var urldepartamentos = 'https://apicruddepartamentoscore.azurewebsites.net/';
+            var url = 'https://apiempleadosspgs.azurewebsites.net/';
+            $(document).ready(function () {
+                loadDepartamentos();
+                $('body').delegate('a', 'click', function (event) {
+                    console.log();
+                    var IdDepartamento = parseInt($(this).attr('data-index'));
+                    var request = 'api/Empleados/EmpleadosDepartamento/' + IdDepartamento;
+                    var html = '';
+                    $.getJSON(url + request, function (data) {
+                        $.each(data, function (index, empleados) {
+                            html += '<tr>';
+                            html += '<td>' + empleados.apellido + '</td>';
+                            html += '<td>' + empleados.oficio + '</td>';
+                            html += '<td>' + empleados.salario + '</td>';
+                            html += '<td>' + empleados.departamento + '</td>';
+                            html += '</tr>';
+                        });
+                        $('#datos tbody').html(html);
+                    });
+                });
+            });
+
+            function loadDepartamentos() {
+                var request = 'api/departamentos';
+                $.getJSON(urldepartamentos + request, function (data) {
+                    $.each(data, function (index, departamentos) {
+                        var enlace = $('<a>', { href: '#', text: 'Empleado', 'data-index': departamentos.numero });
+                        var elementolista = $('<li>', { text: departamentos.nombre });
+                        elementolista.append(enlace);
+                        $('#listadepartamentos').append(elementolista);
+                    });
+                });
+            }
+        </script>
+    </body>
+</html>
